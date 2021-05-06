@@ -9,5 +9,6 @@ class TrendingGiphyViewModel : ViewModel() {
     private val _text = MutableLiveData<String>().apply {
         value = "TrendingGiphy"
     }
+
     val text: LiveData<String> = _text
 }

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TheGiphyApp</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="title_trendinggiphy">Trending Giphy</string>
+    <string name="title_favorites">My Favorites</string>
+</resources>

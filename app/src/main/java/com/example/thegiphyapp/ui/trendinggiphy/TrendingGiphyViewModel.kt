@@ -1,13 +1,26 @@
 package com.example.thegiphyapp.ui.trendinggiphy
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
+import androidx.paging.liveData
+import com.example.thegiphyapp.data.pagingdata.GiphyPaging
+import com.example.thegiphyapp.network.ServiceInterface
+import com.example.thegiphyapp.repository.GiphyServiceRepository
+import com.example.thegiphyapp.repository.GiphyServiceRepositoryImpl
 
-class TrendingGiphyViewModel : ViewModel() {
+class TrendingGiphyViewModel(private val giphyServiceRepository: GiphyServiceRepository) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "TrendingGiphy"
+    private val query = MutableLiveData<String>()
+
+    val list = query.switchMap { query ->
+        Pager(PagingConfig(pageSize = 10)) {
+            GiphyPaging(query, giphyServiceRepository)
+        }.liveData.cachedIn(viewModelScope)
     }
-    val text: LiveData<String> = _text
+
+    fun setQuery(s: String) {
+        query.postValue(s)
+    }
 }

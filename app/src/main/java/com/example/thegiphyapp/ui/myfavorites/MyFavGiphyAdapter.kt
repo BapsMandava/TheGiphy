@@ -9,14 +9,14 @@ import com.example.thegiphyapp.model.GiphyData
 
 class MyFavGiphyAdapter internal constructor(val adapterOnClick : (GiphyData) -> Unit) : RecyclerView.Adapter<MyFavGiphyAdapter.MyViewHolder>() {
 
-    private var moviesListNowPlaying = emptyList<GiphyData>()
+    private var myFavGiphyList = emptyList<GiphyData>()
 
-    override fun getItemCount() = moviesListNowPlaying.size
+    override fun getItemCount() = myFavGiphyList.size
 
     inner class MyViewHolder(val viewDataBinding: ViewHolderGiphyBinding):RecyclerView.ViewHolder(viewDataBinding.root)
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        var giphyData = moviesListNowPlaying.get(position)
+        var giphyData = myFavGiphyList.get(position)
         holder.viewDataBinding.setVariable(BR.giphyData,giphyData)
         holder.viewDataBinding.likeIcon.isChecked = giphyData.isFavorite
         holder.viewDataBinding.likeIcon.setOnCheckedChangeListener(
@@ -36,12 +36,12 @@ class MyFavGiphyAdapter internal constructor(val adapterOnClick : (GiphyData) ->
     }
 
      fun setRepos(repos: List<GiphyData>) {
-        this.moviesListNowPlaying = repos
+        this.myFavGiphyList = repos
         notifyDataSetChanged()
     }
 
     fun clear() {
-        moviesListNowPlaying = emptyList()
+        myFavGiphyList = emptyList()
         notifyDataSetChanged()
     }
 

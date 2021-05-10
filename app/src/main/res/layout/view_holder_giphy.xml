@@ -46,7 +46,7 @@
                 android:checked="false" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/movie_title"
+                android:id="@+id/giphy_title"
                 style="@style/TextAppearance.AppCompat.Body1"
                 android:layout_width="310dp"
                 android:paddingTop="10dp"

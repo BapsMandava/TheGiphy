@@ -1,11 +1,13 @@
 package com.example.thegiphyapp.ui.trendinggiphy
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.thegiphyapp.Application
 import com.example.thegiphyapp.BR
 import com.example.thegiphyapp.data.TrendingGiphyData
 import com.example.thegiphyapp.databinding.ViewHolderGiphyBinding
@@ -28,16 +30,19 @@ class TrendingGiphyPagingAdapter internal constructor( val adapterOnClick : (Gip
     inner class MyViewHolder(val viewDataBinding: ViewHolderGiphyBinding):RecyclerView.ViewHolder(viewDataBinding.root)
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        var gifDataItem = getItem(position)
-        holder.viewDataBinding.setVariable(BR.giphyData,gifDataItem)
-        holder.viewDataBinding.likeIcon.isChecked = gifDataItem?.isFavorite ?: false
-        holder.viewDataBinding.likeIcon.setOnCheckedChangeListener({buttonView, isChecked ->
-            if (isChecked){
-                gifDataItem?.isFavorite = true
-                gifDataItem?.let { adapterOnClick(it) }
-            } else {
-                gifDataItem?.isFavorite = false
-            }
+        holder.viewDataBinding.setVariable(BR.giphyData,getItem(position))
+        holder.viewDataBinding.likeIcon.isChecked = getItem(position)?.isFavorite ?: false
+        holder.viewDataBinding.likeIcon.isChecked = Application.allFavGifData?.let {
+            it.contains(getItem(position)?.id)
+        } ?: false
+        holder.viewDataBinding.likeIcon.setOnCheckedChangeListener(
+            { buttonView, isChecked ->
+                if(buttonView.isPressed) {
+                    getItem(position)?.isFavorite = isChecked
+                    getItem(position)?.let {
+                        adapterOnClick(it)
+                    }
+                }
         })
     }
 

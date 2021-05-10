@@ -13,12 +13,13 @@ import kotlinx.coroutines.launch
 class TrendingGiphyViewModel(private val giphyServiceRepository: GiphyServiceRepository,private val myFavoritiesRepository: MyFavoritiesRepository) : ViewModel() {
 
     private val query = MutableLiveData<String>()
-    private lateinit var readAllData: List<GiphyData>
+
+    private val _readAllData: MutableLiveData<List<String>> =  MutableLiveData()
+    val readAllData : LiveData<List<String>>
+        get() = _readAllData
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            readAllData = myFavoritiesRepository.readAllData()
-        }
+       fetchAllRecords()
     }
 
     val list = query.switchMap { query ->
@@ -33,7 +34,22 @@ class TrendingGiphyViewModel(private val giphyServiceRepository: GiphyServiceRep
 
     fun addMyFavorities(myFavoritesGif:GiphyData){
         viewModelScope.launch(Dispatchers.IO) {
-            myFavoritiesRepository.addFavoriteGif(myFavoritesGif)
+             if(myFavoritiesRepository.addFavoriteGif(myFavoritesGif)>0) {
+                 fetchAllRecords()
+             }
+        }
+    }
+
+    fun deleteMyFavorities(myFavoritesGif:GiphyData){
+        viewModelScope.launch(Dispatchers.IO) {
+            myFavoritiesRepository.deleteFavGif(myFavoritesGif)
+            fetchAllRecords()
+        }
+    }
+
+    fun fetchAllRecords(){
+        viewModelScope.launch(Dispatchers.IO) {
+            _readAllData.postValue(myFavoritiesRepository.readAllData())
         }
     }
 }

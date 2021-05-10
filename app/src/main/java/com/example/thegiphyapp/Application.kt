@@ -11,6 +11,10 @@ import org.koin.core.context.startKoin
  * Application context
  */
 class Application: Application(){
+
+    companion object {
+        var allFavGifData : List<String>? = null
+    }
     override fun onCreate() {
         super.onCreate()
         // start Koin context

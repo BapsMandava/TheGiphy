@@ -13,10 +13,14 @@ class MyFavoritiesRepository(private val application:Application) {
         myFavoriteGifDao = GifDataBase.getDatabase(application).MyFavoriteGifDao()
     }
 
-    suspend fun readAllData(): List<GiphyData> {
+    suspend fun readAllData(): List<String> {
         return myFavoriteGifDao.readAllData()
     }
-    suspend fun addFavoriteGif(myFavoritesGif:GiphyData) {
-        myFavoriteGifDao.addFavoriteGif(myFavoritesGif)
+    suspend fun addFavoriteGif(myFavoritesGif:GiphyData) : Long {
+       return  myFavoriteGifDao.addFavoriteGif(myFavoritesGif)
+    }
+
+    suspend fun deleteFavGif(myFavoritesGif:GiphyData): Int {
+        return myFavoriteGifDao.deleteFavGiphy(myFavoritesGif)
     }
 }

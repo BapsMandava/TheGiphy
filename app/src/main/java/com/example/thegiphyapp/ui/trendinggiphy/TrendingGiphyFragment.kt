@@ -4,10 +4,14 @@ import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.thegiphyapp.Application
+import com.example.thegiphyapp.Application.Companion.allFavGifData
 import com.example.thegiphyapp.R
 import com.example.thegiphyapp.databinding.FragmentTrendinggiphyBinding
 import com.example.thegiphyapp.model.GiphyData
+import com.example.thegiphyapp.ui.GiphyActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -15,6 +19,7 @@ class TrendingGiphyFragment : Fragment() {
     lateinit var binding: FragmentTrendinggiphyBinding
     val trendingGiphyViewModel: TrendingGiphyViewModel by viewModel<TrendingGiphyViewModel>()
     val trendingGiphyPagingAdapter = TrendingGiphyPagingAdapter({ item -> doClick(item) })
+    private lateinit var mActivity: GiphyActivity
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -32,7 +37,9 @@ class TrendingGiphyFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        mActivity = activity as GiphyActivity
         setRecyclerView()
+        setTofetchAllFavGifRecords()
         trendingGiphyViewModel.setQuery("")
         trendingGiphyViewModel.list.observe(viewLifecycleOwner) {
             trendingGiphyPagingAdapter.submitData(lifecycle, it)
@@ -44,6 +51,12 @@ class TrendingGiphyFragment : Fragment() {
             adapter = trendingGiphyPagingAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
+    }
+
+    private fun setTofetchAllFavGifRecords(){
+        trendingGiphyViewModel.readAllData.observe(viewLifecycleOwner, Observer {
+            Application.allFavGifData = it
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -66,7 +79,11 @@ class TrendingGiphyFragment : Fragment() {
     }
 
     fun doClick(myFavoritesGif: GiphyData){
-        trendingGiphyViewModel.addMyFavorities(myFavoritesGif)
+        if(myFavoritesGif.isFavorite){
+            trendingGiphyViewModel.addMyFavorities(myFavoritesGif)
+        } else {
+            trendingGiphyViewModel.deleteMyFavorities(myFavoritesGif)
+        }
     }
 
 }

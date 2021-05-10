@@ -12,12 +12,15 @@ import com.example.thegiphyapp.R
 import com.example.thegiphyapp.databinding.FragmentTrendinggiphyBinding
 import com.example.thegiphyapp.model.GiphyData
 import com.example.thegiphyapp.ui.GiphyActivity
+import com.example.thegiphyapp.ui.GiphySharedViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class TrendingGiphyFragment : Fragment() {
     lateinit var binding: FragmentTrendinggiphyBinding
     val trendingGiphyViewModel: TrendingGiphyViewModel by viewModel<TrendingGiphyViewModel>()
+    val sharedGiphyViewModel: GiphySharedViewModel by sharedViewModel<GiphySharedViewModel>()
     val trendingGiphyPagingAdapter = TrendingGiphyPagingAdapter({ item -> doClick(item) })
     private lateinit var mActivity: GiphyActivity
 
@@ -47,14 +50,14 @@ class TrendingGiphyFragment : Fragment() {
     }
 
     private fun setRecyclerView() {
-        binding.movieRecycler.apply {
+        binding.giphyRecycler.apply {
             adapter = trendingGiphyPagingAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
     }
 
     private fun setTofetchAllFavGifRecords(){
-        trendingGiphyViewModel.readAllData.observe(viewLifecycleOwner, Observer {
+        sharedGiphyViewModel.readAllData.observe(mActivity, Observer {
             Application.allFavGifData = it
         })
     }
@@ -80,9 +83,9 @@ class TrendingGiphyFragment : Fragment() {
 
     fun doClick(myFavoritesGif: GiphyData){
         if(myFavoritesGif.isFavorite){
-            trendingGiphyViewModel.addMyFavorities(myFavoritesGif)
+            sharedGiphyViewModel.addMyFavorities(myFavoritesGif)
         } else {
-            trendingGiphyViewModel.deleteMyFavorities(myFavoritesGif)
+            sharedGiphyViewModel.deleteMyFavorities(myFavoritesGif)
         }
     }
 

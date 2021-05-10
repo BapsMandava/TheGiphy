@@ -4,28 +4,60 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.example.thegiphyapp.R
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.thegiphyapp.databinding.FragmentMyfavoritesBinding
+import com.example.thegiphyapp.model.GiphyData
+import com.example.thegiphyapp.ui.GiphyActivity
+import com.example.thegiphyapp.ui.GiphySharedViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class MyFavoritesFragment : Fragment() {
+    lateinit var binding: FragmentMyfavoritesBinding
+    val sharedGiphyViewModel: GiphySharedViewModel by sharedViewModel<GiphySharedViewModel>()
+    private lateinit var mActivity: GiphyActivity
+    val myFavGiphyAdapter = MyFavGiphyAdapter({ item -> doClick(item) })
 
-    private lateinit var myFavoritesViewModel: MyFavoritesViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        myFavoritesViewModel =
-                ViewModelProvider(this).get(MyFavoritesViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_myfavorites, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
-        myFavoritesViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
+
+        binding = FragmentMyfavoritesBinding.inflate(inflater, container, false)
+        return binding.root
     }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        mActivity = activity as GiphyActivity
+        setRecyclerView()
+        setTofetchAllFavGifRecords()
+    }
+
+    private fun setRecyclerView() {
+        binding.myFavGiphyRecycler.apply {
+            adapter = myFavGiphyAdapter
+            layoutManager = GridLayoutManager(requireContext(),2)
+        }
+    }
+
+    private fun setTofetchAllFavGifRecords(){
+        sharedGiphyViewModel.readAllData.observe(mActivity, Observer {
+            myFavGiphyAdapter.clear()
+            myFavGiphyAdapter.setRepos(it)
+        })
+    }
+
+    fun doClick(myFavoritesGif: GiphyData){
+        if(myFavoritesGif.isFavorite){
+            sharedGiphyViewModel.addMyFavorities(myFavoritesGif)
+        } else {
+            sharedGiphyViewModel.deleteMyFavorities(myFavoritesGif)
+        }
+    }
+
 }

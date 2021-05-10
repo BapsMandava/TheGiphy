@@ -16,8 +16,8 @@ val appModule= module {
     factory { GiphyServiceRepositoryImpl(get()) as GiphyServiceRepository }
     factory { MyFavoritiesRepository(get()) as MyFavoritiesRepository }
     viewModel { MyFavoritesViewModel() }
-    viewModel { TrendingGiphyViewModel(get(),get()) }
-    viewModel { GiphySharedViewModel() }
+    viewModel { TrendingGiphyViewModel(get()) }
+    viewModel { GiphySharedViewModel(get()) }
 }
 
 

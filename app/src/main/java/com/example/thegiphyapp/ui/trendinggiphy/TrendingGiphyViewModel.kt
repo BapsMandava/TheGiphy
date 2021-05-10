@@ -10,17 +10,9 @@ import com.example.thegiphyapp.repository.MyFavoritiesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class TrendingGiphyViewModel(private val giphyServiceRepository: GiphyServiceRepository,private val myFavoritiesRepository: MyFavoritiesRepository) : ViewModel() {
+class TrendingGiphyViewModel(private val giphyServiceRepository: GiphyServiceRepository) : ViewModel() {
 
     private val query = MutableLiveData<String>()
-
-    private val _readAllData: MutableLiveData<List<GiphyData>> =  MutableLiveData()
-    val readAllData : LiveData<List<GiphyData>>
-        get() = _readAllData
-
-    init {
-       fetchAllRecords()
-    }
 
     val list = query.switchMap { query ->
         Pager(PagingConfig(pageSize = 10)) {
@@ -30,26 +22,5 @@ class TrendingGiphyViewModel(private val giphyServiceRepository: GiphyServiceRep
 
     fun setQuery(s: String) {
         query.postValue(s)
-    }
-
-    fun addMyFavorities(myFavoritesGif:GiphyData){
-        viewModelScope.launch(Dispatchers.IO) {
-             if(myFavoritiesRepository.addFavoriteGif(myFavoritesGif)>0) {
-                 fetchAllRecords()
-             }
-        }
-    }
-
-    fun deleteMyFavorities(myFavoritesGif:GiphyData){
-        viewModelScope.launch(Dispatchers.IO) {
-            myFavoritiesRepository.deleteFavGif(myFavoritesGif)
-            fetchAllRecords()
-        }
-    }
-
-    fun fetchAllRecords(){
-        viewModelScope.launch(Dispatchers.IO) {
-            _readAllData.postValue(myFavoritiesRepository.readAllData())
-        }
     }
 }

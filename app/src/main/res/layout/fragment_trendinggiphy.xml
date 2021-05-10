@@ -12,7 +12,7 @@
         tools:context=".ui.trendinggiphy.TrendingGiphyFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/movie_recycler"
+            android:id="@+id/giphy_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/view_holder_giphy" />

@@ -30,16 +30,14 @@ class TrendingGiphyPagingAdapter internal constructor( val adapterOnClick : (Gip
     inner class MyViewHolder(val viewDataBinding: ViewHolderGiphyBinding):RecyclerView.ViewHolder(viewDataBinding.root)
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.viewDataBinding.setVariable(BR.giphyData,getItem(position))
-        holder.viewDataBinding.likeIcon.isChecked = getItem(position)?.isFavorite ?: false
-        holder.viewDataBinding.likeIcon.isChecked = Application.allFavGifData?.let {
-            it.contains(getItem(position)?.id)
-        } ?: false
+        var giphyData = getItem(position)
+        holder.viewDataBinding.setVariable(BR.giphyData,giphyData)
+        holder.viewDataBinding.likeIcon.isChecked = isFavGif(giphyData)
         holder.viewDataBinding.likeIcon.setOnCheckedChangeListener(
             { buttonView, isChecked ->
                 if(buttonView.isPressed) {
-                    getItem(position)?.isFavorite = isChecked
-                    getItem(position)?.let {
+                    giphyData?.isFavorite = isChecked
+                    giphyData?.let {
                         adapterOnClick(it)
                     }
                 }
@@ -49,5 +47,11 @@ class TrendingGiphyPagingAdapter internal constructor( val adapterOnClick : (Gip
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
        val binding = ViewHolderGiphyBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return MyViewHolder(binding)
+    }
+
+    private fun isFavGif(giphyData:GiphyData?):Boolean {
+       return Application.allFavGifData?.any{
+            it.id.equals(giphyData?.id)
+        } ?: false
     }
 }

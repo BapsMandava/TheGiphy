@@ -14,8 +14,8 @@ class TrendingGiphyViewModel(private val giphyServiceRepository: GiphyServiceRep
 
     private val query = MutableLiveData<String>()
 
-    private val _readAllData: MutableLiveData<List<String>> =  MutableLiveData()
-    val readAllData : LiveData<List<String>>
+    private val _readAllData: MutableLiveData<List<GiphyData>> =  MutableLiveData()
+    val readAllData : LiveData<List<GiphyData>>
         get() = _readAllData
 
     init {

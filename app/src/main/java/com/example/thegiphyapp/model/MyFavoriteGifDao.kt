@@ -10,8 +10,8 @@ interface MyFavoriteGifDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addFavoriteGif(giphyData:GiphyData) : Long
 
-    @Query("SELECT id FROM myfavoritesgif_table")
-    suspend fun readAllData(): List<String>
+    @Query("SELECT * FROM myfavoritesgif_table")
+    suspend fun readAllData(): List<GiphyData>
 
     @Delete
     suspend fun deleteFavGiphy(giphyData:GiphyData) : Int

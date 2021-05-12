@@ -11,6 +11,8 @@
         android:layout_height="match_parent"
         tools:context=".ui.trendinggiphy.TrendingGiphyFragment">
 
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/giphy_recycler"
             android:layout_width="match_parent"

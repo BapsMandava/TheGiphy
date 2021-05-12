@@ -47,8 +47,7 @@ class MyFavoritesFragment : Fragment() {
 
     private fun setTofetchAllFavGifRecords(){
         sharedGiphyViewModel.readAllData.observe(mActivity, Observer {
-            myFavGiphyAdapter.clear()
-            myFavGiphyAdapter.setRepos(it)
+            myFavGiphyAdapter.setfavGiphys(it)
         })
     }
 

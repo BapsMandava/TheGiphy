@@ -13,15 +13,16 @@ class MyFavGiphyAdapter internal constructor(val adapterOnClick : (GiphyData) ->
 
     override fun getItemCount() = myFavGiphyList.size
 
-    inner class MyViewHolder(val viewDataBinding: ViewHolderGiphyBinding):RecyclerView.ViewHolder(viewDataBinding.root)
+    inner class MyViewHolder(val viewDataBinding: ViewHolderGiphyBinding) :
+        RecyclerView.ViewHolder(viewDataBinding.root)
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         var giphyData = myFavGiphyList.get(position)
-        holder.viewDataBinding.setVariable(BR.giphyData,giphyData)
+        holder.viewDataBinding.setVariable(BR.giphyData, giphyData)
         holder.viewDataBinding.likeIcon.isChecked = giphyData.isFavorite
         holder.viewDataBinding.likeIcon.setOnCheckedChangeListener(
             { buttonView, isChecked ->
-                if(buttonView.isPressed) {
+                if (buttonView.isPressed) {
                     giphyData?.isFavorite = isChecked
                     giphyData?.let {
                         adapterOnClick(it)
@@ -31,18 +32,14 @@ class MyFavGiphyAdapter internal constructor(val adapterOnClick : (GiphyData) ->
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding = ViewHolderGiphyBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding =
+            ViewHolderGiphyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
     }
 
-     fun setRepos(repos: List<GiphyData>) {
-        this.myFavGiphyList = repos
+    fun setfavGiphys(myFavGiphyList: List<GiphyData>) {
+        this.myFavGiphyList = emptyList()
+        this.myFavGiphyList = myFavGiphyList
         notifyDataSetChanged()
     }
-
-    fun clear() {
-        myFavGiphyList = emptyList()
-        notifyDataSetChanged()
-    }
-
 }

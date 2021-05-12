@@ -6,7 +6,6 @@ import com.example.thegiphyapp.repository.GiphyServiceRepository
 import com.example.thegiphyapp.repository.GiphyServiceRepositoryImpl
 import com.example.thegiphyapp.repository.MyFavoritiesRepository
 import com.example.thegiphyapp.ui.GiphySharedViewModel
-import com.example.thegiphyapp.ui.myfavorites.MyFavoritesViewModel
 import com.example.thegiphyapp.ui.trendinggiphy.TrendingGiphyViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -15,7 +14,6 @@ val appModule= module {
     single { getGiphyService() }
     factory { GiphyServiceRepositoryImpl(get()) as GiphyServiceRepository }
     factory { MyFavoritiesRepository(get()) as MyFavoritiesRepository }
-    viewModel { MyFavoritesViewModel() }
     viewModel { TrendingGiphyViewModel(get()) }
     viewModel { GiphySharedViewModel(get()) }
 }

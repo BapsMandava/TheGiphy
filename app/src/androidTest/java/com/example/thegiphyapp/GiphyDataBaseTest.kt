@@ -75,6 +75,7 @@ class GiphyDataBaseTest : TestCase() {
         Assert.assertTrue(Transform.isFavGif(giphyData2))
 
         val value = myFavoriteGifDao.deleteFavGiphy(giphyData1)
+        Assert.assertEquals(value,1)
         Application.allFavGifData = myFavoriteGifDao.readAllData()
         Assert.assertFalse(Transform.isFavGif(giphyData1))
 

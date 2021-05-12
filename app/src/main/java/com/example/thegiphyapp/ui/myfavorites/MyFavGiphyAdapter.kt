@@ -38,7 +38,6 @@ class MyFavGiphyAdapter internal constructor(val adapterOnClick : (GiphyData) ->
     }
 
     fun setfavGiphys(myFavGiphyList: List<GiphyData>) {
-        this.myFavGiphyList = emptyList()
         this.myFavGiphyList = myFavGiphyList
         notifyDataSetChanged()
     }

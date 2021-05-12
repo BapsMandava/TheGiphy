@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.thegiphyapp.Application
 import com.example.thegiphyapp.BR
+import com.example.thegiphyapp.R
 import com.example.thegiphyapp.data.TrendingGiphyData
 import com.example.thegiphyapp.databinding.ViewHolderGiphyBinding
 import com.example.thegiphyapp.model.GiphyData
@@ -33,6 +35,8 @@ class TrendingGiphyPagingAdapter internal constructor( val adapterOnClick : (Gip
         var giphyData = getItem(position)
         holder.viewDataBinding.setVariable(BR.giphyData,giphyData)
         holder.viewDataBinding.likeIcon.isChecked = isFavGif(giphyData)
+        holder.viewDataBinding.gifImageCard.animation =
+            AnimationUtils.loadAnimation(holder.itemView.context, R.anim.fade)
         holder.viewDataBinding.likeIcon.setOnCheckedChangeListener(
             { buttonView, isChecked ->
                 if(buttonView.isPressed) {

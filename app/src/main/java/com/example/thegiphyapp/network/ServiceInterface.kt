@@ -13,7 +13,7 @@ interface ServiceInterface {
     @GET("trending?")
     suspend fun fetchTreandingGiphyList(
             @Query("api_key") api_key: String = Constants.api_key,
-            @Query("limit") limit: String = "20",
+            @Query("limit") limit: String = "10",
             @Query("rating") rating: String = Constants.rating,
             @Query("offSet") offSet: String,
     ): Response<TrendingGiphyResponse>
@@ -25,7 +25,7 @@ interface ServiceInterface {
     suspend fun searchTreandingGiphyList(
             @Query("api_key") api_key: String = Constants.api_key,
             @Query("q") q: String,
-            @Query("limit") limit: String = "20",
+            @Query("limit") limit: String = "10",
             @Query("rating") rating: String = Constants.rating,
             @Query("offSet") offSet: String,
     ): Response<TrendingGiphyResponse>

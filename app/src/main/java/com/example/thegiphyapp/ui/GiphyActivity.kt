@@ -1,30 +1,38 @@
 package com.example.thegiphyapp.ui
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import com.example.thegiphyapp.Application
+import androidx.viewpager2.widget.ViewPager2
 import com.example.thegiphyapp.BaseActivity
 import com.example.thegiphyapp.R
-import org.koin.android.ext.android.inject
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+
 
 class GiphyActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        val tabLayout=findViewById<TabLayout>(R.id.tab_layout)
+        val viewPager2=findViewById<ViewPager2>(R.id.view_pager_2)
 
-        val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.navigation_home, R.id.navigation_dashboard))
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        val adapter=GiphyPagerAdapter(supportFragmentManager, lifecycle)
+
+        viewPager2.adapter=adapter
+        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+
+        TabLayoutMediator(tabLayout, viewPager2){ tab, position->
+            when(position){
+                0 -> {
+                    tab.text = this.getText(R.string.title_trendinggiphy)
+                    tab.icon = this.getDrawable(R.drawable.ic_baseline_trending_up)
+                }
+                1 -> {
+                    tab.text = this.getText(R.string.title_favorites)
+                    tab.icon = this.getDrawable(R.drawable.ic_baseline_favorite)
+                }
+            }
+        }.attach()
+
     }
 }

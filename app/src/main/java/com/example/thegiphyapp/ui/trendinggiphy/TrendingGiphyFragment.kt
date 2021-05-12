@@ -45,6 +45,7 @@ class TrendingGiphyFragment : Fragment() {
         setTofetchAllFavGifRecords()
         trendingGiphyViewModel.setQuery("")
         trendingGiphyViewModel.list.observe(viewLifecycleOwner) {
+            binding.loader.visibility = View.GONE
             trendingGiphyPagingAdapter.submitData(lifecycle, it)
         }
     }
@@ -58,7 +59,8 @@ class TrendingGiphyFragment : Fragment() {
 
     private fun setTofetchAllFavGifRecords(){
         sharedGiphyViewModel.readAllData.observe(mActivity, Observer {
-            Application.allFavGifData = it
+            allFavGifData = it
+            trendingGiphyPagingAdapter.notifyDataSetChanged()
         })
     }
 

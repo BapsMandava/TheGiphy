@@ -6,7 +6,6 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.thegiphyapp.Application
 import com.example.thegiphyapp.Application.Companion.allFavGifData
 import com.example.thegiphyapp.R
 import com.example.thegiphyapp.databinding.FragmentTrendinggiphyBinding
@@ -43,7 +42,7 @@ class TrendingGiphyFragment : Fragment() {
         mActivity = activity as GiphyActivity
         setRecyclerView()
         setTofetchAllFavGifRecords()
-        trendingGiphyViewModel.setQuery("")
+        if(mActivity.hasNetwork()) trendingGiphyViewModel.setQuery("") else mActivity.showNetworkMessage(mActivity.isNetworkConnected())
         trendingGiphyViewModel.list.observe(viewLifecycleOwner) {
             binding.loader.visibility = View.GONE
             trendingGiphyPagingAdapter.submitData(lifecycle, it)
@@ -72,6 +71,7 @@ class TrendingGiphyFragment : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
+                    searchView.clearFocus()
                     trendingGiphyViewModel.setQuery(it)
                 }
                 return true

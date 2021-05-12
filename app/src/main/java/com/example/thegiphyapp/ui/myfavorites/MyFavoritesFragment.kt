@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.thegiphyapp.databinding.FragmentMyfavoritesBinding
 import com.example.thegiphyapp.model.GiphyData
 import com.example.thegiphyapp.ui.GiphyActivity

@@ -1,8 +1,6 @@
 package com.example.thegiphyapp.model
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
-
 
 @Dao
 interface MyFavoriteGifDao {

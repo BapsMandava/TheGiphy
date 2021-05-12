@@ -1,10 +1,9 @@
 package com.example.thegiphyapp.repository
 
-import com.example.thegiphyapp.data.TrendingGiphyResponse
 import com.example.thegiphyapp.model.GiphyData
 import com.example.thegiphyapp.network.ServiceInterface
 import com.example.thegiphyapp.utils.Transform
-import retrofit2.Response
+
 
 class GiphyServiceRepositoryImpl (private val serviceInterface: ServiceInterface): GiphyServiceRepository {
 

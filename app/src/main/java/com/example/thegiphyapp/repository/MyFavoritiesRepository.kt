@@ -1,7 +1,6 @@
 package com.example.thegiphyapp.repository
 
 import android.app.Application
-import androidx.lifecycle.LiveData
 import com.example.thegiphyapp.model.GifDataBase
 import com.example.thegiphyapp.model.GiphyData
 import com.example.thegiphyapp.model.MyFavoriteGifDao

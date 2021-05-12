@@ -1,9 +1,8 @@
 package com.example.thegiphyapp.utils
 
+import com.example.thegiphyapp.Application
 import com.example.thegiphyapp.data.TrendingGiphyData
-import com.example.thegiphyapp.data.TrendingGiphyResponse
 import com.example.thegiphyapp.model.GiphyData
-import retrofit2.Response
 
 object Transform {
 
@@ -13,5 +12,11 @@ object Transform {
             giphyDataList.add(GiphyData(id = it.id,title = it.title,gif_url = it.images.original.url,isFavorite = false))
         }
         return giphyDataList
+    }
+
+     fun isFavGif(giphyData:GiphyData?):Boolean {
+        return Application.allFavGifData?.any{
+            it.id.equals(giphyData?.id)
+        } ?: false
     }
 }
